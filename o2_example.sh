@@ -12,7 +12,7 @@ module load gcc/6.2.0 cuda/10.2 miniconda3/4.10.3 python/3.6.0
 /n/cluster/bin/job_gpu_monitor.sh &        # collect information about the actual GPU utilization
 
 srun -c 1 conda init bash
-srun -c 1 conda activate deep-cad
+srun -c 1 conda activate deepcad
 python DeepCAD_pytorch /script.py train
 srun -c 1 echo "deepcad train complete"
 python DeepCAD_pytorch /script.py test
