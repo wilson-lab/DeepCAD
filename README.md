@@ -14,6 +14,77 @@
 - [License](./LICENSE)
 - [Citation](#citation)
 
+### tldr
+
+This is a fork of the deepCAD repo for use by the Wilson lab at Harvard Medical School, applying deepCAD to fly brains.
+
+We use deepCAD on GPUs via the O2 system at HMS. You will need to replace the eCommon ID 'ab714' in the below to your own ID.
+
+Here is a quickstart on installinh deepCAD and using it on O2:
+
+```
+# Login to O2
+ssh ab714@o2.hms.harvard.edu
+
+# Get an O2 GPU
+srun -n 1 --pty -t 26:00:00 -p gpu_quad --gres=gpu:1 --mem 24G bash
+module load gcc/6.2.0 cuda/10.2 miniconda3/4.10.3 python/3.6.0
+
+# Create a conda environment for deepCAD
+conda init bash
+conda create -n deepcad python=3.6
+conda activate deepcad
+
+# Install pytorch compatible with chosen CUDA
+pip install torch==1.3.1
+conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=10.2 -c pytorch
+
+# Test cuda is available through torch
+python
+>>import torch
+>>torch.cuda.is_available()
+>>exit()
+
+# Install other dependencies
+conda install -c anaconda opencv scikit-learn scipy matplotlib
+conda install scikit-image 
+conda install -c conda-forge h5py pyyaml tensorboardx tifffile
+
+# Clone deepCAD, this is a fork on the wilson-lab github
+git clone git://github.com/wilson-lab/DeepCAD
+  
+# Download exemplar data
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1k3de4r6fCs1kvpn0dcxSspJjZCVXbSnd' -O /home/ab714/DeepCAD/DeepCAD_pytorch/pth/ModelForPytorch/G_12_1199.pth
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1E3uXGFQ8A8Z2wZmpMYLICuAhiMVpfdPr' -O /home/ab714/DeepCAD/DeepCAD_pytorch/pth/ModelForPytorch/para.yaml
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1WdRC-SaulA_CQfUWL3eSA1CEqBS9RjiV' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1WdRC-SaulA_CQfUWL3eSA1CEqBS9RjiV" -O /home/ab714/DeepCAD/DeepCAD_pytorch/datasets/DataForPytorch/noisy_6000frames.tif && rm -rf /tmp/cookies.txt
+
+# Example train
+cd /home/ab714/DeepCAD/DeepCAD_pytorch/
+conda activate deepcad
+python script.py train
+
+# Example test
+conda activate deepcad
+python script.py test
+
+# Example debug mode, if you need it
+python -m pdb test.py --denoise_model ModelForPytorch \
+--datasets_folder DataForPytorch \
+--test_datasize 6000
+
+# If something with the environment goes wrong, wipe and start again:
+conda remove -n deepcad --all
+conda info --envs
+
+# Run from scratch
+srun -n 1 --pty -t 26:00:00 -p gpu_quad --gres=gpu:1 --mem 24G bash
+module load gcc/6.2.0 cuda/10.2 miniconda3/4.10.3 python/3.6.0
+cd /home/ab714/DeepCAD/DeepCAD_pytorch/
+conda activate deepcad
+python script.py train
+```
+
+
 ## Overview
 
 <img src="images/schematic.png" width="400" align="right">
