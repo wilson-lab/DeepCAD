@@ -51,7 +51,7 @@ conda install scikit-image
 conda install -c conda-forge h5py pyyaml tensorboardx tifffile
 
 # Clone deepCAD, this is a fork on the wilson-lab github
-git clone git://github.com/wilson-lab/DeepCAD
+git clone git clone https://github.com/wilson-lab/DeepCAD
   
 # Download exemplar data
 wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1k3de4r6fCs1kvpn0dcxSspJjZCVXbSnd' -O /home/ab714/DeepCAD/DeepCAD_pytorch/pth/ModelForPytorch/G_12_1199.pth
