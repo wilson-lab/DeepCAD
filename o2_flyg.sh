@@ -1,5 +1,4 @@
 #!/bin/bash
-#SBATCH -c 1                               # Use a CPU
 #SBATCH --partition gpu_quad               # Use a quad GPU
 #SBATCH --gres=gpu:rtx8000:1               # Number to use
 #SBATCH --time=4-00:00                     # Runtime in D-HH:MM format
@@ -12,9 +11,7 @@ module load cuda/10.2
 module load miniconda3/4.10.3 
 module load python/3.6.0
 
-cd DeepCAD_pytorch
 source activate deepcad
-python script.py train
+echo "deepcad train initiated"
+python script.py train --output_dir '/n/data1/hms/neurobio/wilson/DeepCAD/DeepCAD_results/' --datasets_folder 'deepCAD_data' --datasets_path '/home/ab714/DeepCAD/' --pth_path 'DeepCAD_models'
 echo "deepcad train complete"
-python script.py test
-echo "deepcad test complete"
