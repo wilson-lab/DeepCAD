@@ -72,6 +72,10 @@ python -m pdb test.py --denoise_model ModelForPytorch \
 --datasets_folder DataForPytorch \
 --test_datasize 6000
 
+# Exampple using fly data on data1
+cd /home/ab714/DeepCAD/
+sbatch o2_flyg_test.sh
+
 # If something with the environment goes wrong, wipe and start again:
 conda remove -n deepcad --all
 conda info --envs

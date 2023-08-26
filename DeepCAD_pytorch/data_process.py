@@ -8,7 +8,7 @@ import random
 from skimage import io
 import logging
 import math
-
+import pdb
 
 def shuffle_datasets(train_raw, train_GT, name_list):
     index_list = list(range(0, len(name_list)))

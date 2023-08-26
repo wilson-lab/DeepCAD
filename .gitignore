@@ -1,4 +1,7 @@
 *.tif
 *.pth
+*.yaml
+*.onnx
 *.err
 *.out
+*.gpulog

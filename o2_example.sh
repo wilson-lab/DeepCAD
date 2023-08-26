@@ -7,6 +7,8 @@
 #SBATCH -o jobs/deepcad_%j.out             # File to which STDOUT will be written, including job ID (%j)
 #SBATCH -e jobs/deepcad_%j.err             # File to which STDERR will be written, including job ID (%j)
 
+start=`date +%s`
+
 module load gcc/6.2.0 
 module load cuda/10.2 
 module load miniconda3/4.10.3 
@@ -18,3 +20,8 @@ python script.py train
 echo "deepcad train complete"
 python script.py test
 echo "deepcad test complete"
+
+end=`date +%s`
+runtime=$((end-start))
+echo "script completed in: "
+echo $runtime

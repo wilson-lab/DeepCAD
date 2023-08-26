@@ -15,6 +15,7 @@ import numpy as np
 from utils import save_yaml, read_yaml, name2index
 from data_process import shuffle_datasets, train_preprocess, test_preprocess, test_preprocess_lessMemory,test_preprocess_lessMemoryNoTail
 from skimage import io
+import pdb
 #############################################################################################################################################
 parser = argparse.ArgumentParser()
 parser.add_argument("--epoch", type=int, default=0, help="epoch to start training from")
@@ -64,6 +65,7 @@ read_yaml(opt, model_path+'//'+yaml_name)
 name_list, noise_img, coordinate_list= test_preprocess_lessMemoryNoTail(opt)
 # name_list, noise_img, coordinate_list = test_preprocess_lessMemory(opt)
 # trainX = np.expand_dims(np.array(train_raw),4)
+
 num_h = (math.floor((noise_img.shape[1]-opt.img_h)/opt.gap_h)+1)
 num_w = (math.floor((noise_img.shape[2]-opt.img_w)/opt.gap_w)+1)
 num_s = (math.floor((noise_img.shape[0]-opt.img_s)/opt.gap_s)+1)
@@ -91,7 +93,7 @@ for pth_index in range(len(model_list)):
         output_path = output_path1 + '//' + pth_name.replace('.pth','')
         if not os.path.exists(output_path): 
             os.mkdir(output_path)
-        denoise_generator.load_state_dict(torch.load(opt.pth_path+'//'+opt.denoise_model+'//'+pth_name))
+        denoise_generator.load_state_dict(torch.load(opt.pth_path+'//'+opt.denoise_model+'//'+pth_name), strict = False)
 
         denoise_generator.cuda()
         prev_time = time.time()

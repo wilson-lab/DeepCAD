@@ -15,6 +15,7 @@ import numpy as np
 from data_process import shuffle_datasets, train_preprocess_lessMemoryMulStacks, shuffle_datasets_lessMemory
 from utils import save_yaml
 from skimage import io
+import pdb
 #############################################################################################################################################
 parser = argparse.ArgumentParser()
 parser.add_argument("--epoch", type=int, default=0, help="epoch to start training from")
@@ -62,7 +63,6 @@ save_yaml(opt, yaml_name)
 os.environ["CUDA_VISIBLE_DEVICES"] = str(opt.GPU)
 batch_size = opt.batch_size
 lr = opt.lr
-
 name_list, noise_img, coordinate_list = train_preprocess_lessMemoryMulStacks(opt)
 # print('name_list -----> ',name_list)
 ########################################################################################################################
